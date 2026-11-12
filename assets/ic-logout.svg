@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="logout-sign-box">
+<g id="logo">
+<path d="M11 8.99977C11.5522 8.99977 11.9999 9.44756 12 9.99977C12 10.5521 11.5523 10.9998 11 10.9998C10.4477 10.9998 10 10.5521 10 9.99977C10.0001 9.44756 10.4478 8.99977 11 8.99977Z" fill="#040415" fill-opacity="0.47"/>
+<path d="M17 4.26149V15.739L9.34082 18.0964L7 16.5359V3.46559L8.94531 2.16871L9.33984 1.90504L17 4.26149ZM9 4.5359V15.4656L9.65918 15.905L15 14.2615V5.73805L9.65918 4.09547L9 4.5359Z" fill="#040415" fill-opacity="0.47"/>
+<path d="M5 16.9998H3V2.99977H5V16.9998Z" fill="#040415" fill-opacity="0.47"/>
+</g>
+</g>
+</svg>

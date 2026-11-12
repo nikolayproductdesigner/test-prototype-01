@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Альфа-Бизнес — Главная</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="concept.css">
+</head>
+<body class="v-new">
+<div class="page">
+
+  <!-- ===== Side menu ===== -->
+  <aside class="side-menu">
+    <div class="side-menu__logo">
+      <a href="#" class="side-menu__logo-link" aria-label="Альфа-Бизнес">
+        <img src="assets/logo.svg" width="248" height="64" alt="Альфа-Бизнес">
+      </a>
+      <img class="side-menu__gradient" src="assets/menu-gradient.png" alt="">
+    </div>
+
+    <nav class="side-menu__cells">
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon menu-cell__icon--color"><img src="assets/ic-all-services.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Все сервисы</span>
+      </a>
+      <div class="menu-divider"><span></span></div>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-new-payment.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Новый платёж</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-transaction-feed.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Лента операций</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-payments-in-progress.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Платежи в работе</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-import-payments.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Импорт реестров</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-statement.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Выписка</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-accounts.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Счета</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-contragents.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Контрагенты</span>
+      </a>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-cards.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Карты</span>
+      </a>
+      <div class="menu-divider"><span></span></div>
+      <a href="#" class="menu-cell">
+        <span class="menu-cell__icon"><img src="assets/ic-procurement.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Госзакупки</span>
+        <img class="menu-cell__border" src="assets/procurement-border.png" width="32" height="32" alt="">
+      </a>
+    </nav>
+
+    <div class="side-menu__footer">
+      <div class="side-menu__fade"></div>
+      <a href="#" class="menu-cell menu-cell--footer">
+        <span class="menu-cell__icon"><img src="assets/menu-gear.svg" width="20" height="20" alt=""></span>
+        <span class="menu-cell__name">Настроить меню</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===== Body ===== -->
+  <div class="body">
+
+    <header class="header">
+      <div class="header__right">
+        <div class="header__buttons">
+          <button class="icon-btn" type="button" aria-label="Письма"><img src="assets/ic-letter.svg" width="20" height="20" alt=""></button>
+          <button class="icon-btn" type="button" aria-label="Уведомления"><img src="assets/ic-notifications.svg" width="20" height="20" alt=""></button>
+        </div>
+        <div class="header__divider"><span></span></div>
+        <a href="#" class="account">
+          <span class="account__logo"><img src="assets/company-logo.png" alt=""></span>
+          <span class="account__info">
+            <span class="account__name">ООО «Город Нагатино»</span>
+            <span class="account__user">Набоков И.Д.</span>
+          </span>
+        </a>
+        <div class="header__divider"><span></span></div>
+        <button class="icon-btn" type="button" aria-label="Выйти"><img src="assets/ic-logout.svg" width="20" height="20" alt=""></button>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- Quick actions -->
+      <div class="quick-actions">
+        <button class="qa-btn" type="button"><img src="assets/qa-get-statement.svg" width="20" height="20" alt="">Скачать выписку</button>
+        <button class="qa-btn" type="button"><img src="assets/qa-letter-bank.svg" width="20" height="20" alt="">Письмо в банк</button>
+        <button class="qa-btn" type="button"><img src="assets/qa-import-payments.svg" width="20" height="20" alt="">Импорт платежей</button>
+        <button class="qa-btn" type="button"><img src="assets/qa-create-payment.svg" width="20" height="20" alt="">Создать платёж</button>
+        <button class="qa-btn" type="button"><img src="assets/qa-personal-transfer.svg" width="20" height="20" alt="">Себе в Альфа-Банк</button>
+        <button class="qa-btn qa-btn--more" type="button">Ещё</button>
+      </div>
+
+      <!-- 1st line -->
+      <section class="first-line">
+
+        <!-- Balance -->
+        <div class="balance">
+          <div class="balance__main">
+            <p class="balance__amount">12 570 880,95 RUB</p>
+
+            <div class="balance__offer">
+              <img src="assets/plus-icon.svg" width="48" height="48" alt="">
+              <span class="balance__offer-text">
+                <span class="balance__offer-line">
+                  <span class="balance__offer-sum">5 000 000 RUB</span>
+                  <span class="status-pill">Доступно к подключению</span>
+                </span>
+                <span class="balance__offer-sub">Переводите себе бесплатно</span>
+              </span>
+              <button class="balance__cross" type="button" aria-label="Закрыть"><img src="assets/cross.svg" width="16" height="16" alt=""></button>
+            </div>
+
+            <div class="balance__line"></div>
+
+            <div class="balance__products">
+              <a href="#" class="balance__product">
+                <img src="assets/accounts-icon.svg" width="48" height="48" alt="">
+                <span class="balance__product-text">
+                  <span class="balance__product-title">Счета</span>
+                  <span class="balance__product-sub">3 счёта в рублях</span>
+                </span>
+              </a>
+              <a href="#" class="balance__product">
+                <span class="cards-icon">
+                  <img class="cards-icon__bg" src="assets/cards-icon-bg.svg" width="48" height="48" alt="">
+                  <span class="cards-icon__mask">
+                    <span class="cards-icon__back">
+                      <img src="assets/logo-alfa-s.svg" width="44" height="28" alt="">
+                      <span class="cards-icon__dots">…</span>
+                    </span>
+                    <span class="cards-icon__shadow"></span>
+                    <span class="cards-icon__front">
+                      <img src="assets/card-img-1.png" alt="">
+                      <img src="assets/card-img-2.png" alt="">
+                      <img src="assets/card-img-3.png" alt="">
+                      <span class="cards-icon__silver"></span>
+                    </span>
+                  </span>
+                </span>
+                <span class="balance__product-text">
+                  <span class="balance__product-title">Бизнес-карты</span>
+                  <span class="balance__product-sub">2 карты</span>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div class="balance__links">
+            <a href="#" class="balance__link">Реквизиты</a>
+            <a href="#" class="balance__link">Тарифы и подписки</a>
+          </div>
+        </div>
+
+        <!-- In work -->
+        <div class="in-work only-old">
+          <p class="in-work__title">Дела в работе</p>
+          <ul class="in-work__list">
+            <li><a href="#" class="in-work__row"><span>Оплатить</span><span class="indicator">1</span></a></li>
+            <li><a href="#" class="in-work__row"><span>Подписать</span><span class="indicator indicator--accent">3</span></a></li>
+            <li><a href="#" class="in-work__row"><span>Отправить</span><span class="indicator">2</span></a></li>
+            <li><a href="#" class="in-work__row in-work__row--muted"><span>Доработать</span><span class="indicator">0</span></a></li>
+            <li><a href="#" class="in-work__row in-work__row--muted"><span>Отклонённые</span><span class="indicator">0</span></a></li>
+            <li><a href="#" class="in-work__row"><span>Черновики</span><span class="indicator">1</span></a></li>
+            <li><a href="#" class="in-work__row in-work__row--muted"><span>В работе у банка</span><span class="indicator">0</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Ближайшие списания (новый концепт) -->
+        <div class="debits only-new" id="debits"></div>
+
+        <!-- Banners -->
+        <div class="banners">
+          <a href="#" class="banner banner--blue">
+            <span class="banner__title">Накопительный счёт</span>
+            <span class="banner__text">Лизинг, бизнес-карты<br>и другие продукты</span>
+            <span class="banner__img"><img src="assets/banner-product.png" alt=""></span>
+          </a>
+          <a href="#" class="banner banner--purple">
+            <span class="banner__title">Кредитная карта</span>
+            <span class="banner__text">Льготный период 60 дней</span>
+            <span class="banner__img"><img src="assets/banner-product.png" alt=""></span>
+          </a>
+          <a href="#" class="banner banner--magenta">
+            <span class="banner__title">До 300 000 000₽</span>
+            <span class="banner__text">Онлайн гарантия до 10+ лет</span>
+            <span class="banner__img"><img src="assets/banner-product.png" alt=""></span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Tablo -->
+      <section class="tablo">
+        <div class="tablo__names">
+          <button class="tablo__name is-active" type="button"><span class="only-old">Рекомендуем</span><span class="only-new">Дела</span><span class="indicator indicator--accent only-new" id="deals-badge"></span></button>
+          <button class="tablo__name" type="button">Сводка</button>
+          <button class="tablo__name" type="button">Мультибанк</button>
+        </div>
+        <div class="tablo__controls">
+        <div class="tablo__segment">
+          <span class="tablo__knob"></span>
+          <button class="tablo__eye" type="button" aria-label="Показать суммы"><img src="assets/eye.svg" width="28" height="28" alt=""></button>
+          <button class="tablo__eye" type="button" aria-label="Скрыть суммы"><img src="assets/eye-off.svg" width="28" height="28" alt=""></button>
+        </div>
+        <button class="tablo__gear" type="button" aria-label="Настройки"><img src="assets/tablo-gear.svg" width="20" height="20" alt=""></button>
+        </div>
+      </section>
+
+      <!-- Task cards -->
+      <!-- Дела (новый концепт) -->
+      <section class="deals only-new" id="deals" aria-label="Дела"></section>
+
+      <section class="tasks">
+        <div class="tasks__track">
+        <a href="#" class="task task--all" data-onb="list">
+          <span class="task__vector"><span><img src="assets/card1-vector.svg" alt=""></span></span>
+          <span class="task__head">
+            <span class="task__head-title" data-slot="title">Все задания</span>
+            <img src="assets/chevron-right.svg" width="20" height="20" alt="">
+          </span>
+          <span class="task__reward" data-slot="reward"></span>
+          <span class="task__progress">
+            <span class="task__progress-text" data-slot="progress">0/7 выполнено</span>
+            <span class="progress"><span class="progress__fill"></span></span>
+          </span>
+          <span class="task__cap"><img src="assets/task-cap.png" alt=""></span>
+        </a>
+
+        <a href="#" class="task">
+          <span class="task__title">Защитить бизнес <br>от блокировок</span>
+          <span class="task__meta"><span class="points">500<img src="assets/bonuses.svg" width="20" height="20" alt=""></span><span class="task__time">1 мин</span></span>
+          <span class="task__img"><img src="assets/task-1.png" alt=""></span>
+        </a>
+
+        <a href="#" class="task">
+          <span class="task__title">Пополнить счёт</span>
+          <span class="task__meta"><span class="points">500<img src="assets/bonuses.svg" width="20" height="20" alt=""></span><span class="task__time">1 мин</span></span>
+          <span class="task__img task__img--2"><img src="assets/task-2.png" alt=""></span>
+        </a>
+
+        <a href="#" class="task">
+          <span class="task__title">Изучить условия тарифа</span>
+          <span class="task__meta"><span class="points">500<img src="assets/bonuses.svg" width="20" height="20" alt=""></span><span class="task__time">1 мин</span></span>
+          <span class="task__img task__img--3"><img src="assets/task-3.png" alt=""></span>
+        </a>
+
+        <a href="#" class="task">
+          <span class="task__title">Переводить <br>без комиссии <br>с подпиской</span>
+          <span class="task__meta"><span class="points">500<img src="assets/bonuses.svg" width="20" height="20" alt=""></span><span class="task__time">1 мин</span></span>
+          <span class="task__img"><img src="assets/task-4.png" alt=""></span>
+        </a>
+
+        <a href="#" class="task">
+          <span class="task__title">Подключить налоговую копилку</span>
+          <span class="task__meta"><span class="points">500<img src="assets/bonuses.svg" width="20" height="20" alt=""></span><span class="task__time">1 мин</span></span>
+          <span class="task__img"><img src="assets/task-5.png" alt=""></span>
+        </a>
+
+        </div>
+        <span class="tasks__fade"></span>
+        <button class="tasks__next" type="button" aria-label="Далее"><img src="assets/next-fixer.svg" width="16" height="16" alt=""></button>
+      </section>
+
+      <!-- Operations feed -->
+      <section class="feed">
+        <h2 class="feed__title">Лента операций</h2>
+
+        <div class="filters">
+          <div class="filters__search">
+            <div class="field field--date">
+              <button class="field__addon" type="button" aria-label="Предыдущий месяц"><img src="assets/dp-left.svg" width="24" height="24" alt=""></button>
+              <span class="field__value">Апрель</span>
+              <span class="field__addons-right">
+                <button class="field__addon" type="button" aria-label="Следующий месяц" disabled><img src="assets/dp-right.svg" width="24" height="24" alt=""></button>
+                <button class="field__addon" type="button" aria-label="Выбрать дату"><img src="assets/dp-picker.svg" width="24" height="24" alt=""></button>
+              </span>
+            </div>
+            <label class="field field--search">
+              <span class="field__addon"><img src="assets/search.svg" width="24" height="24" alt=""></span>
+              <input class="field__input" type="search" placeholder="Контрагент, ИНН, назначение платежа или номер счёта">
+            </label>
+          </div>
+          <div class="tags">
+            <button class="tag tag--icon" type="button" aria-label="Все фильтры"><img src="assets/sliders.svg" width="16" height="16" alt=""></button>
+            <button class="tag" type="button"><span>Входящие</span></button>
+            <button class="tag" type="button"><span>Исходящие</span></button>
+            <button class="tag" type="button"><span>Счёт</span><img src="assets/tag-chevron.svg" width="16" height="16" alt=""></button>
+            <button class="tag" type="button"><span>Контрагент</span><img src="assets/tag-chevron.svg" width="16" height="16" alt=""></button>
+            <button class="tag" type="button"><span>Статус</span></button>
+            <button class="tag" type="button"><span>Сумма</span></button>
+          </div>
+          <div class="filters__border"></div>
+        </div>
+
+        <div class="ops-topbar">
+          <span class="ops-counter"><span class="ops-counter__label">Всего</span><span>19</span></span>
+          <button class="ops-settings" type="button"><img src="assets/topbar-gear.svg" width="16" height="16" alt=""><span>Настройка</span></button>
+        </div>
+
+        <div class="ops-table" role="table" aria-label="Лента операций">
+          <div class="ops-rows">
+            <div class="ops-row ops-row--head" role="row">
+              <div class="ops-head ops-head--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать все"><span></span></label></div>
+              <div class="ops-head" role="columnheader">
+                <button class="ops-head__title" type="button"><span>Название компании</span><img class="ops-sort" src="assets/sort-none.svg" width="16" height="16" alt=""></button>
+                <button class="ops-head__control" type="button" aria-label="Настройка колонки"><img src="assets/column-control.svg" width="16" height="16" alt=""></button>
+              </div>
+              <div class="ops-head" role="columnheader">
+                <button class="ops-head__title" type="button"><span>Номер</span></button>
+                <button class="ops-head__control" type="button" aria-label="Настройка колонки"><img src="assets/column-control.svg" width="16" height="16" alt=""></button>
+              </div>
+              <div class="ops-head" role="columnheader">
+                <button class="ops-head__title" type="button"><span>Статус</span><img class="ops-sort" src="assets/sort-none.svg" width="16" height="16" alt=""></button>
+                <button class="ops-head__control" type="button" aria-label="Настройка колонки"><img src="assets/column-control.svg" width="16" height="16" alt=""></button>
+              </div>
+              <div class="ops-head" role="columnheader">
+                <button class="ops-head__title ops-head__title--right" type="button"><span>Сумма</span><img class="ops-sort" src="assets/sort-none.svg" width="16" height="16" alt=""></button>
+                <button class="ops-head__control" type="button" aria-label="Настройка колонки"><img src="assets/column-control.svg" width="16" height="16" alt=""></button>
+              </div>
+              <div class="ops-head" role="columnheader">
+                <button class="ops-head__title" type="button"><span>Дата</span><img class="ops-sort" src="assets/sort-desc.svg" width="16" height="16" alt=""></button>
+                <button class="ops-head__control" type="button" aria-label="Настройка колонки"><img src="assets/column-control.svg" width="16" height="16" alt=""></button>
+              </div>
+              <div class="ops-head ops-head--action"></div>
+            </div>
+            <div class="ops-row" role="row">
+              <div class="ops-cell ops-cell--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать операцию"><span></span></label></div>
+              <div class="ops-cell ops-cell--name">
+                <span class="ops-icon"><img src="assets/row-rub.svg" width="24" height="24" alt=""></span>
+                <span class="ops-text">
+                  <span class="ops-text__primary">ООО «Моулин Роз»</span>
+                  <span class="ops-text__secondary">АО «Альфа-Банк» ··5370 (RUR)</span>
+                </span>
+              </div>
+              <div class="ops-cell"><span class="ops-text__primary">101</span></div>
+              <div class="ops-cell"><span class="ops-status">Исполнен</span></div>
+              <div class="ops-cell ops-cell--amount"><span class="ops-amount">−24 500,00&nbsp;₽</span></div>
+              <div class="ops-cell"><span class="ops-text__primary">27.04.2025</span></div>
+              <div class="ops-cell ops-cell--action"><button class="ops-more" type="button" aria-label="Действия"><img src="assets/row-dots.svg" width="16" height="16" alt=""></button></div>
+              <div class="ops-cell ops-cell--desc">Оплата услуг по подготовке флористических композиций. НДС 20%</div>
+            </div>
+            <div class="ops-row" role="row">
+              <div class="ops-cell ops-cell--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать операцию"><span></span></label></div>
+              <div class="ops-cell ops-cell--name">
+                <span class="ops-icon"><img src="assets/row-rub.svg" width="24" height="24" alt=""></span>
+                <span class="ops-text">
+                  <span class="ops-text__primary">ООО «Юнион Плей»</span>
+                  <span class="ops-text__secondary">АО «Альфа-Банк» ··5370 (RUR)</span>
+                </span>
+              </div>
+              <div class="ops-cell"><span class="ops-text__primary">20796</span></div>
+              <div class="ops-cell"><span class="ops-status">Исполнен</span></div>
+              <div class="ops-cell ops-cell--amount"><span class="ops-amount ops-amount--positive">+32 000,00&nbsp;₽</span></div>
+              <div class="ops-cell"><span class="ops-text__primary">27.04.2025</span></div>
+              <div class="ops-cell ops-cell--action"><button class="ops-more" type="button" aria-label="Действия"><img src="assets/row-dots.svg" width="16" height="16" alt=""></button></div>
+              <div class="ops-cell ops-cell--desc">Оплата по счёту №875 от 25.02.25. НДС 20%</div>
+            </div>
+            <div class="ops-row" role="row">
+              <div class="ops-cell ops-cell--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать операцию"><span></span></label></div>
+              <div class="ops-cell ops-cell--name">
+                <span class="ops-icon"><img src="assets/row-rub.svg" width="24" height="24" alt=""></span>
+                <span class="ops-text">
+                  <span class="ops-text__primary">ООО «Курьер Сервис»</span>
+                  <span class="ops-text__secondary">АО «Альфа-Банк» ··5370 (RUR)</span>
+                </span>
+              </div>
+              <div class="ops-cell"><span class="ops-text__primary">100</span></div>
+              <div class="ops-cell"><span class="ops-status">Исполнен</span></div>
+              <div class="ops-cell ops-cell--amount"><span class="ops-amount">−4 000,00&nbsp;₽</span></div>
+              <div class="ops-cell"><span class="ops-text__primary">27.04.2025</span></div>
+              <div class="ops-cell ops-cell--action"><button class="ops-more" type="button" aria-label="Действия"><img src="assets/row-dots.svg" width="16" height="16" alt=""></button></div>
+              <div class="ops-cell ops-cell--desc">Платёж по счёту №554 от 28.02.2025 за предоставленные услуги по доставке согласно договору №15 от 1 декабря 2022 года. НДС 20%</div>
+            </div>
+            <div class="ops-row" role="row">
+              <div class="ops-cell ops-cell--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать операцию"><span></span></label></div>
+              <div class="ops-cell ops-cell--name">
+                <span class="ops-icon"><img src="assets/row-rub.svg" width="24" height="24" alt=""></span>
+                <span class="ops-text">
+                  <span class="ops-text__primary">ПАО «Ростелеком»</span>
+                  <span class="ops-text__secondary">АО «Альфа-Банк» ··5370 (RUR)</span>
+                </span>
+              </div>
+              <div class="ops-cell"><span class="ops-text__primary">99</span></div>
+              <div class="ops-cell"><span class="ops-status">Исполнен</span></div>
+              <div class="ops-cell ops-cell--amount"><span class="ops-amount">−8 990,00&nbsp;₽</span></div>
+              <div class="ops-cell"><span class="ops-text__primary">27.04.2025</span></div>
+              <div class="ops-cell ops-cell--action"><button class="ops-more" type="button" aria-label="Действия"><img src="assets/row-dots.svg" width="16" height="16" alt=""></button></div>
+              <div class="ops-cell ops-cell--desc">Оплата услуг по проведению скоростного интернета в филиале №2 по договору № 123 от 03.02.2025 года. НДС 20%</div>
+            </div>
+            <div class="ops-row" role="row">
+              <div class="ops-cell ops-cell--control"><label class="checkbox"><input type="checkbox" aria-label="Выбрать операцию"><span></span></label></div>
+              <div class="ops-cell ops-cell--name">
+                <span class="ops-icon"><img src="assets/row-rub.svg" width="24" height="24" alt=""></span>
+                <span class="ops-text">
+                  <span class="ops-text__primary">ООО «Абсолют»</span>
+                  <span class="ops-text__secondary">АО «Альфа-Банк» ··5370 (RUR)</span>
+                </span>
+              </div>
+              <div class="ops-cell"><span class="ops-text__primary">98</span></div>
+              <div class="ops-cell"><span class="ops-status">Исполнен</span></div>
+              <div class="ops-cell ops-cell--amount"><span class="ops-amount">−64 900,00&nbsp;₽</span></div>
+              <div class="ops-cell"><span class="ops-text__primary">27.04.2025</span></div>
+              <div class="ops-cell ops-cell--action"><button class="ops-more" type="button" aria-label="Действия"><img src="assets/row-dots.svg" width="16" height="16" alt=""></button></div>
+              <div class="ops-cell ops-cell--desc">Платёж за поставку оборудования по договору №8451 от 17.01.2025 г.. НДС 20%</div>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <button class="pagination__size" type="button"><span>Показывать по 5</span><img src="assets/pg-chevron-down.svg" width="16" height="16" alt=""></button>
+            <div class="pagination__pages">
+              <button class="pagination__arrow" type="button" aria-label="Предыдущая страница" disabled><img src="assets/pg-left.svg" width="16" height="16" alt=""></button>
+              <a href="#" class="pagination__page is-active" aria-current="page">1</a>
+              <a href="#" class="pagination__page">2</a>
+              <a href="#" class="pagination__page">3</a>
+              <a href="#" class="pagination__page">4</a>
+              <button class="pagination__arrow" type="button" aria-label="Следующая страница"><img src="assets/pg-right.svg" width="16" height="16" alt=""></button>
+            </div>
+          </div>
+        </div>
+        <div class="feed__empty">
+          <p class="feed__empty-title">Операций пока нет</p>
+          <p class="feed__empty-text">Здесь появятся все поступления и списания по вашим счетам. Пополните счёт по реквизитам ниже или отправьте первый платёж.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Шторка с заданиями: содержимое рисует app.js -->
+<div class="sheet">
+  <div class="sheet__overlay" data-onb="card"></div>
+  <aside class="sheet__panel" id="sheet-panel" role="dialog" aria-label="Задания"></aside>
+</div>
+
+<!-- Служебный переключатель прототипа -->
+<div class="proto-switch" role="group" aria-label="Состояние клиента">
+  <div class="proto-switch__group proto-switch__scn">
+    <button type="button" data-s="novice">Первый вход <kbd>Q</kbd></button>
+    <button type="button" data-s="expert">В работе <kbd>W</kbd></button>
+    <button type="button" data-s="done">Прошёл онбординг <kbd>E</kbd></button>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
