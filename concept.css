@@ -41,6 +41,38 @@ body.v-new .only-old { display: none !important; }
 .debits__date { grid-area: date; font-size: 14px; color: var(--text-secondary); white-space: nowrap; }
 .debits__name { grid-area: name; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .debits__sum { grid-area: sum; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* --- Блок у баланса с вкладками «Срочное» и «Списания» --- */
+/* отклонённое — самое срочное, точка в цвет красного счётчика; доработка — спокойная жёлтая */
+:root { --dot-yellow: #f3cd5c; --dot-red: var(--accent-primary); }
+/* вкладки текстом, как «Дела · Сводка · Мультибанк»: активная тёмная, остальные бледные */
+.seg { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.seg__btn {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 700; font-size: 16px; line-height: 20px; color: var(--text-tertiary); white-space: nowrap;
+  cursor: pointer; transition: color .2s ease;
+}
+.seg__btn:hover { color: var(--text-secondary); }
+.seg__btn.is-on { color: var(--text-primary); }
+.seg + .debits__list { margin-top: 24px; }
+/* срочные дела: точка говорит, откуда дело — отклонено или вернули на доработку */
+.u-list { display: flex; flex-direction: column; margin: 16px -12px 0; }
+.u-row { position: relative; display: grid; grid-template-columns: 8px minmax(0, 1fr); column-gap: 12px; padding: 8px 12px; border-radius: 12px; transition: background-color .2s ease; }
+.u-row:hover { background: var(--neutral-translucent-100); }
+.u-dot { width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; }
+.u-dot--yellow { background: var(--dot-yellow); }
+.u-dot--red { background: var(--dot-red); }
+.u-row__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.u-row__title { font-size: 16px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.u-row__sub { font-size: 14px; line-height: 20px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* не всё поместилось: ссылка прижата к низу блока */
+.blk-more { margin-top: auto; padding-top: 12px; font-size: 14px; line-height: 20px; color: var(--text-secondary); transition: color .2s ease; }
+.blk-more:hover { color: var(--text-primary); }
+/* пустая вкладка: две короткие строки по центру блока, без иконки */
+.blk-empty { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: auto 0; padding-bottom: 12px; text-align: center; }
+.blk-empty__title { font-size: 16px; line-height: 20px; }
+.blk-empty__text { font-size: 14px; line-height: 20px; color: var(--text-secondary); text-wrap: balance; }
+@media (prefers-reduced-motion: no-preference) { body.is-tab .debits > :not(.seg) { animation: concept-in .18s ease both; } }
+
 /* Продукты в балансе стоят на своих местах при любой ширине карточки: «Бизнес-карты»
    в 316px от левого края. Колонки сжимаются, только когда карточка уже макета. */
 .balance__products { grid-template-columns: repeat(2, minmax(0, 268px)); }
@@ -85,7 +117,9 @@ body.v-new.is-newcomer .balance { grid-column: span 2; }
 
 /* --- Список статусов --- */
 .st__title { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 500; font-size: 16px; line-height: 20px; white-space: nowrap; }
-.st__sub { display: block; margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--text-secondary); text-wrap: pretty; }
+.st__sub { display: flex; min-width: 0; margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--text-secondary); white-space: nowrap; }
+.st__ex { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.st__more { flex: none; }
 .st-list { display: flex; flex-direction: column; justify-content: center; padding: 8px 0; container-type: inline-size; }
 .st-list--wide { padding: 4px 0; }
 /* узкий список без описаний: обычное начертание и без шевронов */
@@ -244,6 +278,11 @@ body.sheet-open .sheet__panel { transform: none; }
 .r-row__title { font-weight: 500; font-size: 16px; line-height: 20px; }
 .r-row__desc { font-size: 14px; line-height: 20px; color: var(--text-secondary); text-wrap: pretty; }
 .r-row .t-row__meta { margin-top: 2px; }
+/* шторки со списком: срочные дела и списания */
+.r-row--dot { grid-template-columns: 8px minmax(0, 1fr) 20px; }
+.r-row--dot .u-dot { margin-top: 6px; }
+.sheet__debits { padding: 12px 20px 0; }
+.sheet__debits .debits__list { margin-top: 0; gap: 20px; }
 @media (prefers-reduced-motion: reduce) { .sheet__overlay, .sheet__panel { transition: none; } }
 
 /* --- Строка задания --- */

@@ -21,8 +21,10 @@
   /* ---------- Статусы ----------
      Порядок взят из блока «Дела в работе» на макете задания: чем выше статус, тем он важнее.
      Первые три — «Требуют внимания», остальные четыре — «Остальные дела».
-     Цвет счётчика — второй признак: красный, если дело ждёт самого пользователя (mine),
-     серый, если ход за кем-то другим. Ноль остаётся на месте приглушённым. */
+     Цвет счётчика: красный только у «Доработать» и «Отклонённых» — это те же документы,
+     что вынесены во вкладку «Срочно» у баланса, поэтому сумма красных равна её счётчику.
+     Остальные счётчики серые. Ноль остаётся на месте приглушённым. */
+  var URGENT_STATUS = { rework: true, rejected: true };
   var ATTENTION = [
     { key: 'pay', title: 'Оплатить' },
     { key: 'sign', title: 'Подписать' },
@@ -51,35 +53,89 @@
      Опытный: дела во всех статусах, часть заданий ещё не выполнена. */
   var SCENARIOS = {
     novice: { deals: {}, debits: null, done: 0, balance: { amount: '0,00 RUB', accounts: '1 счёт в рублях', cards: 'Выпустить карту' } },
+    // «В работе»: дела есть, но срочного и списаний нет — обе вкладки блока у баланса пустые
     expert: {
       // sub — один пример; «и ещё N» дописывается, если документов больше одного
       deals: {
         pay: { n: 3, sub: 'Счёт от ООО «Юнион Плей»' },
-        sign: { n: 12, mine: true, sub: 'Зарплата за апрель' },
+        sign: { n: 12, sub: 'Зарплата за апрель' },
         send: { n: 5, sub: 'Платёж ПАО «Ростелеком»' },
-        rework: { n: 2, mine: true, sub: 'Валютный контроль · контракт №18' },
+        rework: { n: 0 },
         rejected: { n: 0 },
         draft: { n: 4, sub: 'ООО «Курьер Сервис» · доставка' },
         bank: { n: 9, sub: 'Аренда офиса за май' }
       },
-      debits: {
-        rows: [
-          { date: '28 апр', name: 'Налоги', sum: '1 284 000 ₽' },
-          { date: '30 апр', name: 'Зарплата', sum: '4 620 000 ₽' },
-          { date: '30 апр', name: 'Кредит', sum: '950 000 ₽' },
-          { date: '5 мая', name: 'Аренда', sum: '610 000 ₽' }
-        ]
-      },
+      urgent: [],
+      debits: { rows: [] },
       done: 2
     }
   };
+  var D = [
+    { date: '28 апр', name: 'Налоги', sum: '1 284 000 ₽' },
+    { date: '30 апр', name: 'Зарплата', sum: '4 620 000 ₽' },
+    { date: '30 апр', name: 'Кредит', sum: '950 000 ₽' },
+    { date: '5 мая', name: 'Аренда', sum: '610 000 ₽' }
+  ];
+  /* Блок у баланса с двумя вкладками. urgent — конкретные дела из «Отклонённых» и «Доработать»:
+     их меньше всего, но каждое остановило платёж. Три случая: пусто («В работе»),
+     обычный («Прошёл онбординг») и переполнение («Много дел»). */
+  SCENARIOS.many = {
+    deals: {
+      pay: { n: 128, sub: 'Счёт от ООО «Северо-Западная логистическая компания»' },
+      sign: { n: 1204, sub: 'Зарплата за апрель' },
+      send: { n: 56, sub: 'Платёж ПАО «Ростелеком»' },
+      rework: { n: 8, sub: 'Валютный контроль · контракт №18' },
+      rejected: { n: 4, sub: 'Платёж ООО «Абсолют»' },
+      draft: { n: 43, sub: 'ООО «Курьер Сервис» · доставка' },
+      bank: { n: 312, sub: 'Аренда офиса за май' }
+    },
+    urgent: [
+      // порядок по времени: свежие сверху, отклонённые и возвращённые вперемешку
+      { kind: 'rejected', title: 'Платёж ООО «Абсолют»', why: 'неверный КПП' },
+      { kind: 'rework', title: 'Контракт №18', why: 'валютный контроль' },
+      { kind: 'rejected', title: 'Платёж ООО «Северо-Западная логистическая компания»', why: 'превышен лимит' },
+      { kind: 'rework', title: 'Справка о валютных операциях', why: 'не хватает документа' },
+      { kind: 'rejected', title: 'Платёж ИП Соколов А. В.', why: 'счёт получателя закрыт' },
+      { kind: 'rejected', title: 'Реестр зарплаты №14', why: 'ошибка в трёх строках' },
+      { kind: 'rework', title: 'Контракт №22', why: 'валютный контроль' },
+      { kind: 'rework', title: 'Платёж ООО «Вектор»', why: 'уточните назначение' },
+      { kind: 'rework', title: 'Контракт №25', why: 'валютный контроль' },
+      { kind: 'rework', title: 'Письмо в банк', why: 'нужна подпись директора' },
+      { kind: 'rework', title: 'Платёж ООО «Гранит»', why: 'уточните ИНН' },
+      { kind: 'rework', title: 'Контракт №31', why: 'валютный контроль' }
+    ],
+    debits: { rows: D.concat([
+      { date: '6 мая', name: 'Лизинг оборудования', sum: '320 000 ₽' },
+      { date: '10 мая', name: 'Страховые взносы', sum: '1 410 000 ₽' },
+      { date: '15 мая', name: 'Аванс сотрудникам', sum: '2 300 000 ₽' }
+    ]) },
+    done: 2
+  };
 
   // view и task — открыта ли шторка с заданиями (list) и какое задание клиент выбрал в ней
-  // Тот же клиент с делами, но все задания выполнены
-  SCENARIOS.done = { deals: SCENARIOS.expert.deals, debits: SCENARIOS.expert.debits, done: TASKS.length };
+  // Все задания выполнены; в блоке у баланса обычный случай: три срочных дела и четыре списания
+  SCENARIOS.done = {
+    deals: {
+      pay: { n: 3, sub: 'Счёт от ООО «Юнион Плей»' },
+      sign: { n: 12, sub: 'Зарплата за апрель' },
+      send: { n: 5, sub: 'Платёж ПАО «Ростелеком»' },
+      rework: { n: 2, sub: 'Валютный контроль · контракт №18' },
+      rejected: { n: 1, sub: 'Платёж ООО «Абсолют»' },
+      draft: { n: 4, sub: 'ООО «Курьер Сервис» · доставка' },
+      bank: { n: 9, sub: 'Аренда офиса за май' }
+    },
+    urgent: [
+      { kind: 'rejected', title: 'Платёж ООО «Абсолют»', why: 'неверный КПП' },
+      { kind: 'rework', title: 'Контракт №18', why: 'валютный контроль' },
+      { kind: 'rework', title: 'Справка о валютных операциях', why: 'не хватает документа' }
+    ],
+    debits: { rows: D },
+    done: TASKS.length
+  };
 
   // auto — какое по счёту из оставшихся заданий сейчас показывает карточка шага (меняется раз в 10 секунд)
-  var state = { v: 'new', s: 'expert', hidden: false, view: 'card', task: null, auto: 0 };
+  // tab — вкладка блока у баланса (urgent | debits); null — выбирается сама: срочное, если оно есть
+  var state = { v: 'new', s: 'expert', hidden: false, view: 'card', task: null, auto: 0, tab: null };
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function nb(s) { return esc(s).replace(/ /g, S); }
@@ -87,7 +143,8 @@
   function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, S); }
   function points(n) { return '<span class="points">' + fmt(n) + '<img src="assets/bonuses.svg" width="20" height="20" alt="баллов"></span>'; }
   function chev() { return '<img class="chev" src="assets/chevron-right-center.svg" width="20" height="20" alt="">'; }
-  function count(n, accent) { return '<span class="indicator' + (accent ? ' indicator--accent' : '') + '">' + n + '</span>'; }
+  // счётчик не растёт бесконечно: больше 999 показываем как «999+»
+  function count(n, accent) { return '<span class="indicator' + (accent ? ' indicator--accent' : '') + '">' + (n > 999 ? '999+' : n) + '</span>'; }
   function get(d, key) { return d.deals[key] || { n: 0 }; }
   function total(d, list) { return list.reduce(function (a, st) { return a + get(d, st.key).n; }, 0); }
 
@@ -96,14 +153,15 @@
      список с описанием, справа узкий без него.
      Сумм нет: по статусу непонятно, что именно они складывают. Показываем счётчик и
      один пример документа, остальные — «и ещё N». */
-  function sub(x) { return esc(x.sub) + (x.n > 1 ? ' и' + S + 'ещё' + S + (x.n - 1) : ''); }
+  // длинный пример обрезается многоточием, хвост «и ещё N» всегда виден целиком
+  function sub(x) { return '<span class="st__ex">' + esc(x.sub) + '</span>' + (x.n > 1 ? '<span class="st__more">' + S + 'и' + S + 'ещё' + S + fmt(x.n - 1) + '</span>' : ''); }
   // Иконка у всех статусов одна: серая подложка, тёмная линия. Цветом говорит только счётчик
   function stRow(st, d, withSub) {
     var x = get(d, st.key), cls = 'st-row' + (withSub ? ' st-row--wide' : '');
     // пустой статус остаётся на месте приглушённым: ноль тоже ответ
     if (!x.n) return '<div class="' + cls + ' st-row--zero">' + ico(st.key) + '<span class="st__title">' + st.title + count(0) + '</span></div>';
     return '<a href="#" class="' + cls + '">' + ico(st.key) +
-      '<span class="st-row__text"><span class="st__title">' + st.title + count(x.n, x.mine) + '</span>' +
+      '<span class="st-row__text"><span class="st__title">' + st.title + count(x.n, URGENT_STATUS[st.key]) + '</span>' +
       (withSub ? '<span class="st__sub">' + sub(x) + '</span>' : '') + '</span>' + (withSub ? chev() : '') + '</a>';
   }
   function stList(list, d, withSub, label) {
@@ -225,14 +283,69 @@
     });
   }
 
-  function debitsHtml(d) {
-    var h = '<p class="debits__title">Ближайшие списания</p>';
-    if (!d.debits) return ''; // у нового клиента блока нет
-    // Показываем три ближайших
-    return h + '<ul class="debits__list">' + d.debits.rows.slice(0, 3).map(function (r) {
+  function blockEmpty(title, text) {
+    return '<div class="blk-empty"><span class="blk-empty__title">' + title + '</span><span class="blk-empty__text">' + text + '</span></div>';
+  }
+  function debitRows(rows) {
+    return '<ul class="debits__list">' + rows.map(function (r) {
       return '<li class="debits__row"><span class="debits__date">' + nb(r.date) + '</span>' +
         '<span class="debits__name">' + esc(r.name) + '</span><span class="debits__sum">' + money(r.sum) + '</span></li>';
     }).join('') + '</ul>';
+  }
+  // в блок помещается четыре строки; если их больше, показываем четыре и ссылку «Ещё N»
+  var BLOCK_ROWS = 4;
+  // «Ещё N» открывает шторку с полным списком (view — какую именно)
+  function moreRow(rest, view) { return rest > 0 ? '<a href="#" class="blk-more" data-onb="' + view + '">Ещё ' + fmt(rest) + '</a>' : ''; }
+  function urgentRows(list) {
+    if (!list.length) return blockEmpty('Срочного пока нет', 'Здесь появится то, что нельзя откладывать');
+    var KIND = { rejected: ['red', 'Отклонён'], rework: ['yellow', 'Доработать'] };
+    return '<div class="u-list">' + list.slice(0, BLOCK_ROWS).map(function (u) {
+      return '<a href="#" class="u-row"><i class="u-dot u-dot--' + KIND[u.kind][0] + '"></i>' +
+        '<span class="u-row__text"><span class="u-row__title">' + esc(u.title) + '</span>' +
+        '<span class="u-row__sub">' + KIND[u.kind][1] + ' · ' + esc(u.why) + '</span></span></a>';
+    }).join('') + '</div>' + moreRow(list.length - BLOCK_ROWS, 'urgent');
+  }
+  /* Та же шторка, что у заданий, но со списком: все срочные дела или все списания.
+     Срочные сгруппированы по причине, внутри группы — по времени. */
+  function sheetShell(title, body) {
+    return '<div class="sheet__head"><h2 class="sheet__title">' + title + '</h2>' +
+      '<button type="button" class="sheet__close" data-onb="card" aria-label="Закрыть">' + svg('close') + '</button></div>' +
+      '<div class="sheet__scroll">' + body + '</div>';
+  }
+  function urgentSheet(d) {
+    var GROUPS = [['rejected', 'red', 'Отклонённые'], ['rework', 'yellow', 'Доработать']];
+    return sheetShell('Срочные дела', GROUPS.map(function (g) {
+      var items = d.urgent.filter(function (u) { return u.kind === g[0]; });
+      if (!items.length) return '';
+      return '<p class="sheet__label">' + g[2] + ' · ' + items.length + '</p>' + items.map(function (u) {
+        return '<a href="#" class="r-row r-row--dot"><i class="u-dot u-dot--' + g[1] + '"></i>' +
+          '<span class="r-row__text"><span class="r-row__title">' + esc(u.title) + '</span>' +
+          '<span class="r-row__desc">' + esc(u.why.charAt(0).toUpperCase() + u.why.slice(1)) + '</span></span>' + chev() + '</a>';
+      }).join('');
+    }).join(''));
+  }
+  function debitsSheet(d) {
+    return sheetShell('Ближайшие списания', '<div class="sheet__debits">' + debitRows(d.debits.rows) + '</div>');
+  }
+  function sheetFor(d) {
+    if (state.view === 'urgent' && d.urgent) return urgentSheet(d);
+    if (state.view === 'debits' && d.debits) return debitsSheet(d);
+    if (state.view === 'list' && d.done < TASKS.length) return sheetHtml(d.done);
+    return '';
+  }
+
+  function debitsHtml(d) {
+    if (!d.debits) return ''; // у нового клиента блока нет
+    // вид с вкладками: «Срочное» открыто само, если срочное есть
+    // первой открыта «Срочное»; если срочного нет, а списания есть — сразу «Списания»
+    var tab = state.tab || (d.urgent.length || !d.debits.rows.length ? 'urgent' : 'debits');
+    function seg(key, label, n) {
+      return '<button type="button" class="seg__btn' + (tab === key ? ' is-on' : '') + '" data-tab="' + key + '">' + label + (n ? count(n) : '') + '</button>';
+    }
+    return '<div class="seg">' + seg('urgent', 'Срочно', d.urgent.length) + seg('debits', 'Списания') + '</div>' +
+      (tab === 'urgent' ? urgentRows(d.urgent)
+        : !d.debits.rows.length ? blockEmpty('Списаний пока нет', 'Появятся, когда запланируете платежи')
+        : debitRows(d.debits.rows.slice(0, BLOCK_ROWS)) + moreRow(d.debits.rows.length - BLOCK_ROWS, 'debits'));
   }
 
   function hasDeals(d) { return total(d, ATTENTION) + total(d, OTHER) > 0; }
@@ -274,7 +387,8 @@
   try {
     var q = new URLSearchParams(location.search);
     if (SCENARIOS[q.get('s')]) state.s = q.get('s');
-    if (q.get('view') === 'list') state.view = 'list';
+    if (/^(list|urgent|debits)$/.test(q.get('view') || '')) state.view = q.get('view');
+    if (q.get('tab') === 'urgent' || q.get('tab') === 'debits') state.tab = q.get('tab');
     if (q.get('sums')) state.hidden = q.get('sums') === 'hidden';
   } catch (e) {}
 
@@ -291,13 +405,11 @@
     staticTexts(d);
     finCountUp();
     renderAllCard(d.done);
-    document.getElementById('sheet-panel').innerHTML = d.done < TASKS.length ? sheetHtml(d.done) : '';
-    document.body.classList.toggle('sheet-open', state.view === 'list' && d.done < TASKS.length);
+    var sheet = sheetFor(d);
+    // пока шторка закрывается, её содержимое не стираем — иначе она уедет пустой
+    if (sheet) document.getElementById('sheet-panel').innerHTML = sheet;
+    document.body.classList.toggle('sheet-open', !!sheet);
 
-    var badge = document.getElementById('deals-badge');
-    var n = ATTENTION.concat(OTHER).reduce(function (a, st) { var x = get(d, st.key); return a + (x.mine ? x.n : 0); }, 0);
-    badge.textContent = n;
-    badge.hidden = !n;
 
     Array.prototype.forEach.call(document.querySelectorAll('.proto-switch button'), function (b) {
       b.setAttribute('aria-pressed', b.dataset.s === state.s ? 'true' : 'false');
@@ -315,13 +427,16 @@
     cls = cls || 'is-switching';
     document.body.classList.add(cls);
     clearTimeout(switching);
-    switching = setTimeout(function () { document.body.classList.remove('is-switching', 'is-flipping', 'is-sheet'); }, 260);
+    switching = setTimeout(function () { document.body.classList.remove('is-switching', 'is-flipping', 'is-sheet', 'is-tab'); }, 260);
     render();
   }
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest('.proto-switch button');
-    if (b) { set({ s: b.dataset.s, view: 'card', task: null, auto: 0 }); return; }
+    if (b) { set({ s: b.dataset.s, view: 'card', task: null, auto: 0, tab: null }); return; }
+    // вкладки блока у баланса
+    var tabBtn = e.target.closest('[data-tab]');
+    if (tabBtn) { set({ tab: tabBtn.dataset.tab }, 'is-tab'); return; }
     // клик по большой монете повторяет праздничную анимацию
     if (e.target.closest('[data-replay]')) { render(); return; }
     // шторка с заданиями: открыть, закрыть (крестик или затемнение), выбрать задание
@@ -338,13 +453,15 @@
   // Горячие клавиши: по физической клавише, работают в любой раскладке
   var KEYS = {
     KeyQ: { s: 'novice', view: 'card', task: null }, KeyW: { s: 'expert', view: 'card', task: null, auto: 0 },
-    KeyE: { s: 'done', view: 'card', task: null }
+    KeyE: { s: 'done', view: 'card', task: null, tab: null },
+    // блок у баланса с вкладками при большом числе дел
+    KeyT: { s: 'many', view: 'card', task: null, tab: null }
   };
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var t = e.target;
     if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-    if (e.code === 'Escape' && state.view === 'list') { set({ view: 'card' }, 'is-sheet'); return; }
+    if (e.code === 'Escape' && state.view !== 'card') { set({ view: 'card' }, 'is-sheet'); return; }
     if (e.code === 'KeyH') { set({ hidden: !state.hidden }); return; }
     if (KEYS[e.code]) set(KEYS[e.code]);
   });
