@@ -82,12 +82,12 @@
   SCENARIOS.many = {
     deals: {
       pay: { n: 128, sub: 'Счёт от ООО «Северо-Западная логистическая компания»' },
-      sign: { n: 1204, sub: 'Зарплата за апрель' },
+      sign: { n: 18, sub: 'Зарплата за апрель' },
       send: { n: 56, sub: 'Платёж ПАО «Ростелеком»' },
       rework: { n: 8, sub: 'Валютный контроль · контракт №18' },
       rejected: { n: 4, sub: 'Платёж ООО «Абсолют»' },
       draft: { n: 43, sub: 'ООО «Курьер Сервис» · доставка' },
-      bank: { n: 312, sub: 'Аренда офиса за май' }
+      bank: { n: 1204, sub: 'Аренда офиса за май' }
     },
     urgent: [
       // порядок по времени: свежие сверху, отклонённые и возвращённые вперемешку
@@ -132,6 +132,11 @@
     debits: { rows: D },
     done: TASKS.length
   };
+
+  // Затишье: задания пройдены, все документы разобраны. Раскладка та же, счётчики по нулям,
+  // обе вкладки блока у баланса пустые. known — клиент не новый, карусель заданий ему не нужна.
+  // spent — баллы уже потрачены, карточки с итогом нет: третья колонка свободна
+  SCENARIOS.idle = { known: true, spent: true, deals: {}, urgent: [], debits: { rows: [] }, done: TASKS.length };
 
   // auto — какое по счёту из оставшихся заданий сейчас показывает карточка шага (меняется раз в 10 секунд)
   // tab — вкладка блока у баланса (urgent | debits); null — выбирается сама: срочное, если оно есть
@@ -348,7 +353,7 @@
         : debitRows(d.debits.rows.slice(0, BLOCK_ROWS)) + moreRow(d.debits.rows.length - BLOCK_ROWS, 'debits'));
   }
 
-  function hasDeals(d) { return total(d, ATTENTION) + total(d, OTHER) > 0; }
+  function hasDeals(d) { return !!d.known || total(d, ATTENTION) + total(d, OTHER) > 0; }
   function col(kind, html) { return '<div class="col' + (kind ? ' col--' + kind : '') + '">' + html + '</div>'; }
 
   /* Раскладка зависит только от данных клиента. Сетка та же, что у первой строки
@@ -359,7 +364,8 @@
   function dealsHtml(d) {
     if (!hasDeals(d)) return '';
     var att = col('', stList(ATTENTION, d, true, 'Требуют внимания'));
-    return att + col('', stList(OTHER, d, false, 'Остальные дела')) + col('', stepZone(d.done));
+    // карточки заданий нет — остальные дела занимают и её колонку
+    return att + col(d.spent ? 'main' : '', stList(OTHER, d, false, 'Остальные дела')) + (d.spent ? '' : col('', stepZone(d.done)));
   }
 
   // Баланс и лента — статичная вёрстка. У нового клиента подставляем его значения,
@@ -383,7 +389,7 @@
     var saved = JSON.parse(localStorage.getItem('proto-state') || 'null');
     if (saved && SCENARIOS[saved.s]) { state.s = saved.s; state.hidden = !!saved.hidden; }
   } catch (e) {}
-  // Ссылка на конкретное состояние: ?s=novice|expert|done&view=list&rot=секунды&sums=hidden
+  // Ссылка на конкретное состояние: ?s=novice|expert|done|idle|many&view=list&rot=секунды&sums=hidden
   try {
     var q = new URLSearchParams(location.search);
     if (SCENARIOS[q.get('s')]) state.s = q.get('s');
@@ -454,6 +460,7 @@
   var KEYS = {
     KeyQ: { s: 'novice', view: 'card', task: null }, KeyW: { s: 'expert', view: 'card', task: null, auto: 0 },
     KeyE: { s: 'done', view: 'card', task: null, tab: null },
+    KeyR: { s: 'idle', view: 'card', task: null, tab: null },
     // блок у баланса с вкладками при большом числе дел
     KeyT: { s: 'many', view: 'card', task: null, tab: null }
   };
